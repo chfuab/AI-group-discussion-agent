@@ -1,0 +1,59 @@
+{
+    "PostgreSQL":{
+        "is_relational": "True", 
+        "database": {
+            "db_0": {
+                "host":"localhost", 
+                "user":"chfuab", 
+                "password":"123", 
+                "port":"5432"}
+            },
+            "db_1": {
+                "host":"localhost", 
+                "user":"chfuab1", 
+                "password":"456", 
+                "port":"5432"
+            }
+        },
+    "MongoDB":{
+        "is_relational":"False", 
+        "local_uri": "mongodb://localhost:27017/",
+        "database": {
+            "db_0": {
+                "collections": {
+                    "c1": {
+                        "name": "ABC"
+                    },
+                    "c2": {
+                        "name": "DEF"
+                    }
+                }
+            },
+            "db_1": {
+                "collections": {
+                    "c3": {
+                        "name": "EFG"
+                    },
+                    "c4": {
+                        "name": "IJK"
+                    }
+                }
+            }
+        }
+    },
+    "MySQL":{
+        "is_relational":"True",
+        "database": {
+            "db_0": {
+                "host":"localhost", 
+                "user":"chfuab", 
+                "password":"123"
+            },
+            "db_1": {
+                "host":"localhost", 
+                "user":"chfuab", 
+                "password":"123"
+            }
+        }
+    }
+}
