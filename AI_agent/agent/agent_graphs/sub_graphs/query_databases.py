@@ -236,21 +236,22 @@ class QueryDatabases:
                     "verification_result": [all_result_neg_ver],
                 })
 
+queryDatabase = QueryDatabases(max_retry=10)
 query_db_builder = StateGraph(QeuryingDatabaseState)
-query_db_builder.add_node("prompt_clarification", QueryDatabases.promp_clarification)
-query_db_builder.add_node("query_database", QueryDatabases.query_databases)
-query_db_builder.add_node("query_result_feedback_generator", QueryDatabases.query_result_feedback_generator)
-query_db_builder.add_node("query_result_analysis", QueryDatabases.query_result_analysis)
+query_db_builder.add_node("prompt_clarification", queryDatabase.promp_clarification)
+query_db_builder.add_node("query_database", queryDatabase.query_databases)
+query_db_builder.add_node("query_result_feedback_generator", queryDatabase.query_result_feedback_generator)
+query_db_builder.add_node("query_result_analysis", queryDatabase.query_result_analysis)
 # query_db_builder.add_edge(START, "prompt_clarification")
 query_db_subgraph = query_db_builder.compile()
 
 query_db_wrapper_builder = StateGraph(QeuryingDatabaseState)
-query_db_wrapper_builder.add_node("job_assignment", QueryDatabases.jobs_assignment)
+query_db_wrapper_builder.add_node("job_assignment", queryDatabase.jobs_assignment)
 query_db_wrapper_builder.add_node("query_database_subgraph", query_db_subgraph)
-query_db_wrapper_builder.add_node("aggregate_jobs", QueryDatabases.aggregate_jobs)
+query_db_wrapper_builder.add_node("aggregate_jobs", queryDatabase.aggregate_jobs)
 query_db_wrapper_builder.add_conditional_edges(
     source=START,
-    path=QueryDatabases.jobs_assignment,
+    path=queryDatabase.jobs_assignment,
     path_map=["query_database_subgraph"]
 )
 query_db_wrapper_builder.add_edge("query_database_subgraph", "aggregate_jobs")

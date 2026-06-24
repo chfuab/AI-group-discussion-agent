@@ -127,15 +127,16 @@ class CheckFeasibility:
             update={"all_explanation": all_exp}
         )
 
+checkFeasibility = CheckFeasibility()
 check_feasibility_builder = StateGraph(CheckFeasibilityState)
-check_feasibility_builder.add_node("gather_verifiable_factors", CheckFeasibility.gather_verifiable_factors)
+check_feasibility_builder.add_node("gather_verifiable_factors", checkFeasibility.gather_verifiable_factors)
 check_feasibility_builder.add_node("query_db_wrapper", query_db_wrapper)
-check_feasibility_builder.add_node("aggregate_results", CheckFeasibility.aggregate_execution_results)
+check_feasibility_builder.add_node("aggregate_results", checkFeasibility.aggregate_execution_results)
 
 check_feasibility_builder.add_edge(START, "gather_verifiable_factors")
 check_feasibility_builder.add_conditional_edges(
     source="gather_verifiable_factors",
-    path=CheckFeasibility.parallel_execution,
+    path=checkFeasibility.parallel_execution,
     path_map=["query_db_wrapper"]
 )
 check_feasibility_builder.add_edge("query_db_wrapper", "aggregate_results")
